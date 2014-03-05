@@ -281,10 +281,13 @@ public class tweetHandler {
                 NGramDriver.NGramTweet(cleanTweet(t.getMessage()));
                 results.add(t);
             }
-            TfidfDriver.idfchecker(results);   //hmmmm... i think it would've been better if you used results here as a parameter na lang
+            
             rs.close();
             ps.close();
             c.close();
+            
+            System.out.println("******************************* ");
+            TfidfDriver.idfchecker(results);
             
         }catch(ClassNotFoundException ex){
             Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -347,10 +350,13 @@ public class tweetHandler {
                 NGramDriver.NGramTweet(cleanTweet(t.getMessage()));
                 results.add(t);
             }
-            TfidfDriver.idfchecker(results);
+            
             rs.close();
             ps.close();
             c.close();
+            
+            System.out.println("******************************* ");
+            TfidfDriver.idfchecker(results);
             
         }catch(ClassNotFoundException ex){
             Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
