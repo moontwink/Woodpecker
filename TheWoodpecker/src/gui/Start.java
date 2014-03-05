@@ -824,7 +824,6 @@ public class Start extends javax.swing.JFrame {
         }
         
         NGramDriver.sortngramlist(NGramDriver.getNgramlist());
-        NGramDriver.cleanFunctionWords();
     }
       
     }//GEN-LAST:event_beginBtnActionPerformed

@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.lang.Math;
 import database.tweetModel;
+import ngram.NGramDriver;
 
 public class TfidfDriver {
     private static ArrayList<ngram.NGram> ngramlist; //contains the list of the ngrams and the frequency counts
@@ -57,18 +58,17 @@ public class TfidfDriver {
         ngramlist = ngram.NGramDriver.getNgramlist();    //list of ngrams
         if(count == 0) count = 1;
         
-        System.out.println("\t\t___tweetlistcount______ "+tweetListCount);
-//        for (int i = 0; i< ngramlist.size();i++)
-//        {
+        //System.out.println("\t\t___tweetlistcount______ "+tweetListCount);
+
             tfscore = ngramlist.get(ngramindex).getFrequency()*java.lang.Math.log10(tweetListCount/count);
             System.out.println("\t\t[["+ngramlist.get(ngramindex).getTweet()+"]] has "+count);
             System.out.println("\t\t_frequency_ "+ngramlist.get(ngramindex).getFrequency());
             System.out.println("\t\t___tfscore___ "+ngramlist.get(ngramindex).getFrequency()*java.lang.Math.log10(tweetListCount/count));
-//        }
-        Tfidf newtf = new Tfidf(ngramlist.get(ngramindex).getTweet(), tfscore);
+
+            
+        String tweet = NGramDriver.cleanFunctionWordsFromTweet(ngramlist.get(ngramindex).getTweet());
+        Tfidf newtf = new Tfidf(tweet, tfscore);
         getToplist().add(newtf);
-//        
-//        topscores(toplist);
     }
     
     private static void printTopList(){

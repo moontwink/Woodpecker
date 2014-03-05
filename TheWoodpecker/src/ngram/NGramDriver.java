@@ -58,10 +58,12 @@ public class NGramDriver{
         +"saka|samin|san|sapagkat|si|sila|sino|siya|subalit|sya|"
         +"tayo|tungkol|ung|upang|yan|yun|yung)\\b\\s*", Pattern.CASE_INSENSITIVE);
     
+   /*
    public static void cleanFunctionWords(){
        for(int n = 0; n < ngramlist.size(); n++){
            NGram currentNgram = ngramlist.get(n);
            String ngramtweet = currentNgram.getTweet();
+           System.out.println(ngramtweet +" *****************");
            
            Matcher matcher = englishfunctionwords.matcher(ngramtweet);
            String clean = matcher.replaceAll("");
@@ -72,9 +74,23 @@ public class NGramDriver{
            clean = matcher.replaceAll("");
            
            ngramlist.get(n).setTweet(clean);
+           System.out.println("***************** "+ngramlist.get(n).getTweet());
        }
+       System.out.println("CLEANED FUNCTION WORDS******************8");
+   }
+   */
+   
+   public static String cleanFunctionWordsFromTweet(String tweet){
+           
+        Matcher matcher = englishfunctionwords.matcher(tweet);
+        String clean = matcher.replaceAll("");
+        tweet = clean;
+
+        matcher = filipinofunctionwords.matcher(tweet);
+        clean = matcher.replaceAll("");
+        tweet = clean;
        
-       
+        return tweet;
    }
    
    public static void emptyNgram(){

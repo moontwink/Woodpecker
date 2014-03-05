@@ -18,6 +18,8 @@ import tfidf.TfidfDriver;
  */
 public class tweetHandler {
     
+    private static ArrayList<String> tweetlinks = new ArrayList<String>();
+    
     //Adds tweet to database
     public static String addTweet(tweetModel tm){
         String message = "* Saving Failed.";
@@ -54,28 +56,6 @@ public class tweetHandler {
         
     }
     
-    //Rewrites tweet to text file in UTF-8 format
-    public static String RewriteTweet(String tweet){
-        String filePath = "C:\\Users\\JOY\\Desktop\\Twitter API\\Twitter4j\\twitter4j\\twitter4j-stream\\writetweet.txt";
-        String tweetLine = tweet;
-        
-        //Rewrites tweet to text file
-        try{
-            Writer write = new Writer(filePath, false);
-            write.writeToFile(tweet);
-//            System.out.print("__! Rewrite Successful! __");
-        }catch(IOException ex){
-            System.out.println("__! Sorry, No Can Do!");
-        }
-      
-        //Reads tweet as pure text
-        Reader read = new Reader(filePath);
-        read.OpenFile();
-        tweetLine = read.ReadFile();
-        
-        return tweetLine;
-    }
-    
     //Normalizes tweet
     public static String normalizeTweet(String tweet){
         String tweetLine = tweet.toLowerCase();
@@ -85,6 +65,7 @@ public class tweetHandler {
     //Cleans tweet
     public static String cleanTweet(String tweet){
         tweet = normalizeTweet(tweet);
+        tweet = RemoveLinks(tweet);
         
         while(tweet.contains("@")){
             String mention = "";
@@ -102,6 +83,59 @@ public class tweetHandler {
         }
         return tweet;
     }
+    
+    public static String RemoveLinks(String tweet)
+   {
+        
+       while(tweet.contains("http")||tweet.contains("t.co"))
+       {
+            String message = "";
+            int indexhttp = tweet.indexOf("http");
+            int indextco = tweet.indexOf("t.co");
+            int indexlinks = 0;
+            if(tweet.contains("http"))
+            {
+                while(tweet.charAt(indexhttp)!=' ')
+                {
+                message = message.concat(tweet.charAt(indexhttp)+"");
+                indexhttp++;
+                System.out.println("This is the message" +message);
+                    if(indexhttp >= tweet.length())
+                        break;
+                }
+            }
+            else if (tweet.contains("t.co"))
+            {
+                while(tweet.charAt(indextco)!=' ')
+                {
+                message = message.concat(tweet.charAt(indextco)+"");
+                indextco++;
+                
+                    if(indextco >= tweet.length())
+                        break;
+                }
+            }
+            
+            tweet = tweet.replace(message, "").trim();
+            
+            tweetlinks.add(message);
+            
+       }
+       
+      
+       return tweet;
+   }
+    
+   public static void printLinks()
+   {
+       for(int num = 0; num < tweetlinks.size(); num++)
+       {
+           System.out.println("------------------------------");
+           System.out.println("Links "+num+ "are here mamasita  " +tweetlinks.get(num));
+           
+       }
+       
+   }
     
     //Retrieves all Tweets
     public static ArrayList<tweetModel> getAllTweets(){
@@ -422,35 +456,6 @@ public class tweetHandler {
         }
         
         return results;
-    }
-    
-    public static Boolean checkTweet(String username, String message){
-        tweetModel tw = null;
-        
-        try{
-            Connection c = DBFactory.getConnection();
-            PreparedStatement ps = c.prepareStatement("SELECT username, message FROM tweets "+
-                    "WHERE username = ? and message = ?");
-            ps.setString(1, username);
-            ps.setString(2, message);
-            ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()){
-                tw = new tweetModel();
-                tw.setUsername(rs.getString(1));
-                tw.setMessage(rs.getString(2));
-            }
-            
-            if(tw == null){
-                return true;    //tweet doesn't exist
-            }
-        }catch(ClassNotFoundException ex){
-            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }catch(SQLException ex){
-            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return false;
     }
     
     public static String getEarliestDate(){
