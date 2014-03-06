@@ -76,6 +76,7 @@ public class TfidfDriver {
     
     private static void printTopList(){
         sorttoplist(getToplist());
+        
         for(Tfidf tf : getToplist()){
             System.out.println("\t\t\t[[" + tf.getTweet() +"]] == " + tf.getScore());
         }

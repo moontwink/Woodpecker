@@ -822,8 +822,12 @@ public class Start extends javax.swing.JFrame {
         }else if((keywordCB.isSelected() && keywordTF.getText().isEmpty())){
             JOptionPane.showMessageDialog(null, "Please input a keyword.", "Filter Criteria Requirement", JOptionPane.INFORMATION_MESSAGE);
         }
-        
-        NGramDriver.sortngramlist(NGramDriver.getNgramlist());
+    }
+    
+    
+    //IF NO METHOD SELECTED
+    else if(!lmRB.isSelected() && !topicRB.isSelected()){
+        JOptionPane.showMessageDialog(null, "Please select a method.", "Woodpecker Requirement", JOptionPane.INFORMATION_MESSAGE);
     }
       
     }//GEN-LAST:event_beginBtnActionPerformed

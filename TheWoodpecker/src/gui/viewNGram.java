@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 import javax.swing.table.DefaultTableModel;
 import ngram.NGram;
+import ngram.NGramDriver;
 import tfidf.Tfidf;
 import tfidf.TfidfDriver;
 
@@ -30,6 +31,7 @@ public class viewNGram extends javax.swing.JFrame {
         
         initComponents();
         insertTweets(TfidfDriver.getToplist());
+//        insertTweets(NGramDriver.getNgramlist());
 //        insertTweetsList(tweets);
     }
 

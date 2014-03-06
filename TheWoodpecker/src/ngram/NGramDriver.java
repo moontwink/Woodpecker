@@ -82,6 +82,15 @@ public class NGramDriver{
    * 
    */
    
+   public static void removeOutliers(){
+        double trim = ngramlist.size() * 0.20;
+        System.out.print("********************trim**** " + trim);
+        for(int top = 0; top < trim; top++){
+            ngramlist.remove(ngramlist.get(top));
+            ngramlist.remove(ngramlist.get(ngramlist.size()-1-top));
+        }
+   }
+   
    public static String cleanFunctionWordsFromTweet(String tweet){
            
         Matcher matcher = englishfunctionwords.matcher(tweet);

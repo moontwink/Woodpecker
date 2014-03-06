@@ -138,6 +138,7 @@ public class tweetHandler {
    }
     
     //Retrieves all Tweets
+   /*
     public static ArrayList<tweetModel> getAllTweets(){
         ArrayList<tweetModel> results = new ArrayList<tweetModel>();
         tweetModel t;
@@ -173,6 +174,13 @@ public class tweetHandler {
         
         return results;
     }
+    */
+   
+    private static void sortNgramAndRemoveOutliers(){
+        NGramDriver.sortngramlist(NGramDriver.getNgramlist());
+        NGramDriver.removeOutliers();
+    }
+    
     public static ArrayList<tweetModel> getAllTweetsByKeywordAndDate(String keywords, String startDate, String endDate){
         ArrayList<tweetModel> results = new ArrayList<tweetModel>();
         
@@ -237,6 +245,7 @@ public class tweetHandler {
             c.close();
             
             System.out.println("******************************* ");
+            sortNgramAndRemoveOutliers();
             TfidfDriver.idfchecker(results);
             
         }catch(ClassNotFoundException ex){
@@ -253,7 +262,9 @@ public class tweetHandler {
     public static ArrayList<tweetModel> getAllTweetsByKeyword(String keywords){
         ArrayList<tweetModel> results = new ArrayList<tweetModel>();
         tweetModel t;
+        
         System.out.println("hiiiii");
+        
        keywords = keywords.replaceAll(",", "%\' and message like \'%");   
           System.out.println(keywords);
        keywords = keywords.replaceAll(";", "%\' or message like \'%"); 
@@ -272,12 +283,11 @@ public class tweetHandler {
                 t.setIdTweets(rs.getInt("idTweets"));
                 t.setStatusId(rs.getString("statusId"));
                 t.setUsername(rs.getString("username"));
-                t.setMessage(rs.getString("message"));
+                t.setMessage(cleanTweet(rs.getString("message")));
                 t.setRetweetCount(rs.getString("retweetCount"));
                 t.setLatitude(rs.getLong("latitude"));
                 t.setLonghitude(rs.getLong("longhitude"));
                 t.setDate(rs.getString("date"));
-                //This is where grace inserted the ngram, everytime na nagrretrieve nag-ngram na sya 
                 NGramDriver.NGramTweet(cleanTweet(t.getMessage()));
                 results.add(t);
             }
@@ -287,6 +297,7 @@ public class tweetHandler {
             c.close();
             
             System.out.println("******************************* ");
+            sortNgramAndRemoveOutliers();
             TfidfDriver.idfchecker(results);
             
         }catch(ClassNotFoundException ex){
@@ -341,12 +352,11 @@ public class tweetHandler {
                 t.setIdTweets(rs.getInt("idTweets"));
                 t.setStatusId(rs.getString("statusId"));
                 t.setUsername(rs.getString("username"));
-                t.setMessage(rs.getString("message"));
+                t.setMessage(cleanTweet(rs.getString("message")));
                 t.setRetweetCount(rs.getString("retweetCount"));
                 t.setLatitude(rs.getLong("latitude"));
                 t.setLonghitude(rs.getLong("longhitude"));
                 t.setDate(rs.getString("date"));
-                
                 NGramDriver.NGramTweet(cleanTweet(t.getMessage()));
                 results.add(t);
             }
@@ -356,6 +366,7 @@ public class tweetHandler {
             c.close();
             
             System.out.println("******************************* ");
+            sortNgramAndRemoveOutliers();
             TfidfDriver.idfchecker(results);
             
         }catch(ClassNotFoundException ex){
