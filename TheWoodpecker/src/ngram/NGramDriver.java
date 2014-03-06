@@ -59,6 +59,7 @@ public class NGramDriver{
         +"tayo|tungkol|ung|upang|yan|yun|yung)\\b\\s*", Pattern.CASE_INSENSITIVE);
     
    /*
+    * 
    public static void cleanFunctionWords(){
        for(int n = 0; n < ngramlist.size(); n++){
            NGram currentNgram = ngramlist.get(n);
@@ -78,6 +79,7 @@ public class NGramDriver{
        }
        System.out.println("CLEANED FUNCTION WORDS******************8");
    }
+   * 
    */
    
    public static String cleanFunctionWordsFromTweet(String tweet){
