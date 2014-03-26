@@ -12,6 +12,8 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,6 +43,26 @@ public class Reader {
         tweetLine = scan.nextLine();
         
         return tweetLine;
+    }
+    
+    public void readMalletData(){
+        String tweetLine;
+        String filePath = "C:\\mallet\\sample-tweets\\uaap\\";
+        int num = 1;
+        
+        OpenFile();
+        
+        while(scan.hasNextLine()){
+            tweetLine = scan.nextLine();
+            Writer write = new Writer(filePath+num+".txt");
+            try {
+                write.writeToFile(tweetLine);
+            } catch (IOException ex) {
+                Logger.getLogger(Reader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            num++;
+        }
+        
     }
     
     public void readText(){

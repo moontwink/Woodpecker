@@ -789,7 +789,6 @@ public class Start extends javax.swing.JFrame {
         }
         else if((keywordCB.isSelected() && !keywordTF.getText().isEmpty())){
             TweetCleaner tc = new TweetCleaner();
-            NGramDriver.emptyNgram();
             tc.cleanByKeyword(keywordTF.getText());
             
             TDMethodPanel.setEnabled(true);
@@ -804,7 +803,6 @@ public class Start extends javax.swing.JFrame {
             String start = smonthMB.getSelectedItem().toString()+" "+sdayMB.getSelectedItem().toString()+" "+syearMB.getSelectedItem().toString();
             String end = emonthMB.getSelectedItem().toString()+" "+edayMB.getSelectedItem().toString()+" "+eyearMB.getSelectedItem().toString();
             
-            NGramDriver.emptyNgram();
             ArrayList<tweetModel> tweets = tc.cleanByDate(start, end);
             System.out.println(tweets.size());
             for(tweetModel t : tweets)
@@ -824,9 +822,22 @@ public class Start extends javax.swing.JFrame {
         }
     }
     
+    //IF TOPIC MODELLER IS SELECTED
+    else if(topicRB.isSelected()){
+        if((keywordCB.isSelected() && !keywordTF.getText().isEmpty())){
+            TweetCleaner tc = new TweetCleaner();
+            tc.cleanByKeyword(keywordTF.getText());
+            
+            TDMethodPanel.setEnabled(true);
+            lmRB.setEnabled(true);
+            topicRB.setEnabled(true);
+            viewtweetsBtn.setEnabled(true);
+        }
+    }
+    
     
     //IF NO METHOD SELECTED
-    else if(!lmRB.isSelected() && !topicRB.isSelected()){
+    else {
         JOptionPane.showMessageDialog(null, "Please select a method.", "Woodpecker Requirement", JOptionPane.INFORMATION_MESSAGE);
     }
       
