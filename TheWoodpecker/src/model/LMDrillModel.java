@@ -12,6 +12,7 @@ public class LMDrillModel {
     private int level;
     private String tablename;
     private ArrayList<Tfidf> topList;
+    private String[] keywords;
 
     public LMDrillModel() {
         level = 0;
@@ -67,6 +68,20 @@ public class LMDrillModel {
      */
     public void setTopList(ArrayList<Tfidf> topList) {
         this.topList = topList;
+    }
+
+    /**
+     * @return the keywords
+     */
+    public String[] getKeywords() {
+        return keywords;
+    }
+
+    /**
+     * @param keywords the keywords to set
+     */
+    public void setKeywords(String[] keywords) {
+        this.keywords = keywords;
     }
     
     

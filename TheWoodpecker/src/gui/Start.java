@@ -736,7 +736,6 @@ public class Start extends javax.swing.JFrame {
         
     //IF LANGUAGE MODELER IS SELECTED
     if(lmRB.isSelected()){
-        LM_DrillDown p = new LM_DrillDown();
         String method = "LM";
         NGramDriver.emptyNgram();
         
@@ -757,7 +756,14 @@ public class Start extends javax.swing.JFrame {
                 String endDay = edayMB.getSelectedItem().toString();
                 String endYear = eyearMB.getSelectedItem().toString();
 
-                p.setLmDM(lmDrillModel);
+                String keys = keywordTF.getText();
+                keys = keys.replaceAll(",", " ");
+                keys = keys.replaceAll(";", " ");
+                String[] keywords = keys.split(" ");
+                
+                lmDrillModel.setKeywords(keywords);
+                
+                LM_DrillDown p = new LM_DrillDown(lmDrillModel);
                 tabPane.add(method + " - LV" + lmDrillModel.getLevel() + " - " + keywordTF.getText() + " - [" 
                     + startMonth + "." + startDay + "." + startYear
                     + "-" + endMonth + "." + endDay + "." + endYear 
@@ -772,7 +778,14 @@ public class Start extends javax.swing.JFrame {
             if(lmDrillModel.getLevel() == -1){
                 JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
             }else{
-                p.setLmDM(lmDrillModel);
+                String keys = keywordTF.getText();
+                keys = keys.replaceAll(",", " ");
+                keys = keys.replaceAll(";", " ");
+                String[] keywords = keys.split(" ");
+                
+                lmDrillModel.setKeywords(keywords);
+                
+                LM_DrillDown p = new LM_DrillDown(lmDrillModel);
                 tabPane.add("LV" + lmDrillModel.getLevel() + " - " + keywordTF.getText() + " - " + method, p);
                 tabPane.setSelectedComponent(p);
             }
@@ -788,6 +801,7 @@ public class Start extends javax.swing.JFrame {
             if(lmDrillModel.getLevel() == -1){
                 JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
             }else{
+                LM_DrillDown p = new LM_DrillDown(lmDrillModel);
                 tabPane.add("LV" + lmDrillModel.getLevel() + " - " + 
                     "[" + smonthMB.getSelectedItem().toString()
                     + "-" + emonthMB.getSelectedItem().toString() + " "
@@ -854,6 +868,7 @@ public class Start extends javax.swing.JFrame {
             if(tmDrillModel.getLevel() == -1){
                 JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
             }else{
+                p.setTmDM(tmDrillModel);
                 tabPane.add("LV" + tmDrillModel.getLevel() + " - " + 
                     "[" + smonthMB.getSelectedItem().toString()
                     + "-" + emonthMB.getSelectedItem().toString() + " "
