@@ -1,3 +1,8 @@
+/*
+ * McCallum, Andrew Kachites.  "MALLET: A Machine Learning for Language Toolkit."
+ *   http://mallet.cs.umass.edu. 2002.
+ */
+
 package mallet;
 
 import cc.mallet.util.*;
@@ -13,6 +18,7 @@ import model.tweetModel;
 
 public class TopicModel {
     private ArrayList<TopicOutput> allTopics;
+    private int dataSize = 0;
     
     public void importData(ArrayList<tweetModel> tweets){
         String filePath = "src\\malletfile.txt";
@@ -22,8 +28,10 @@ public class TopicModel {
             database.Writer write = new database.Writer(filePath, false);
             write.writeToFile("");
             write = new database.Writer(filePath, true);
-            for(tweetModel tm : tweets)
+            for(tweetModel tm : tweets){
                 write.writeToFile(tm.getMessage());
+                dataSize++;
+            }
         }catch(IOException ex){
             System.out.println("__! Sorry, No Can Do! Failed import data. <mallet> ");
         }
@@ -91,7 +99,7 @@ public class TopicModel {
 
         // Run the model for 50 iterations and stop (this is for testing only, 
         //  for real applications, use 1000 to 2000 iterations)
-        model.setNumIterations(1000);
+        model.setNumIterations(dataSize+10);
         try {
             model.estimate();
         } catch (IOException ex) {
@@ -164,7 +172,7 @@ public class TopicModel {
 
         TopicInferencer inferencer = model.getInferencer();
         double[] testProbabilities = inferencer.getSampledDistribution(testing.get(0), 10, 1, 5);
-//        System.out.println("0\t" + testProbabilities[0]);
+        System.out.println("0\t" + testProbabilities[0]);
     }
 
 	public static void main(String[] args) throws Exception {
