@@ -5,6 +5,7 @@
 package gui;
 
 import database.Reader;
+import database.TablesHandler;
 import database.tweetHandler;
 import model.tweetModel;
 import java.util.ArrayList;
@@ -595,8 +596,7 @@ public class LM_DrillDown extends javax.swing.JPanel {
     }//GEN-LAST:event_drilldownBtnActionPerformed
 
     private void closetabBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closetabBtnActionPerformed
-        
-        
+        TablesHandler.dropTable(lmDM.getTablename());
         this.getParent().remove(this);
     }//GEN-LAST:event_closetabBtnActionPerformed
 

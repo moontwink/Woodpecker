@@ -5,9 +5,13 @@
 package gui;
 
 import database.CalendarHandler;
+import database.TablesHandler;
 import database.tweetHandler;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import model.tweetModel;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.LMDrillModel;
 import model.TMDrillModel;
@@ -30,6 +34,8 @@ public class Start extends javax.swing.JFrame {
     public Start() {
         initComponents();
         setDisabled();
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
     
     public void setDisabled(){
@@ -1079,13 +1085,25 @@ public class Start extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Start.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
+        
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Start().setVisible(true);
+        Start test = new Start();
+        
+        /* Drop all temp tables on exit before disposal */
+        test.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                System.out.println("Beginning to drop all temporary tables....");
+                TablesHandler.dropAllTempTables();
+                ((JFrame)(e.getComponent())).dispose();
             }
         });
+
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Start().setVisible(true);
+//            }
+//        });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel TDMethodPanel;
