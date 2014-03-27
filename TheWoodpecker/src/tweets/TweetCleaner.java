@@ -3,9 +3,10 @@ package tweets;
 
 import database.Writer;
 import database.tweetHandler;
-import database.tweetModel;
+import model.tweetModel;
 import java.io.IOException;
 import java.util.ArrayList;
+import model.LMDrillModel;
 
 /**
  *
@@ -14,24 +15,24 @@ import java.util.ArrayList;
 public class TweetCleaner {
     ArrayList<tweetModel> tweets;
     
-    public ArrayList<tweetModel> cleanByKeyword(String keyword){
+    public LMDrillModel cleanByKeyword(String keyword){
         
-        tweets = tweetHandler.getAllTweetsByKeyword(keyword);
-        writeTweets(tweets);
+        LMDrillModel lmDrillModel = tweetHandler.getAllTweetsByKeyword(keyword);
+//        writeTweets(tweets);
         
-        return tweets;
+        return lmDrillModel;
     }
     
-    public ArrayList<tweetModel> cleanByDate(String start, String end){
-        tweets = tweetHandler.getAllTweetsByDate(start, end);
+    public LMDrillModel cleanByDate(String start, String end){
+        LMDrillModel lmDrillModel = tweetHandler.getAllTweetsByDate(start, end);
         writeTweets(tweets);
-        return tweets;
+        return lmDrillModel;
     }
     
-    public ArrayList<tweetModel> cleanByKeywordsAndDate(String keywords, String start, String end){
-        tweets = tweetHandler.getAllTweetsByKeywordAndDate(keywords, start, end);
-        writeTweets(tweets);
-        return tweets;
+    public LMDrillModel cleanByKeywordsAndDate(String keywords, String start, String end){
+        LMDrillModel lmDrillModel = tweetHandler.getAllTweetsByKeywordAndDate(keywords, start, end);
+//        writeTweets(tweets);
+        return lmDrillModel;
     }
     
     private void writeTweets(ArrayList<tweetModel> tweets){

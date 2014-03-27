@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.lang.Math;
-import database.tweetModel;
+import model.tweetModel;
 import ngram.NGramDriver;
 
 public class TfidfDriver {

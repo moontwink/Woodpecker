@@ -6,7 +6,7 @@ package woodpecker;
 
 import database.Reader;
 import database.tweetHandler;
-import database.tweetModel;
+import model.tweetModel;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;

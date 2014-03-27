@@ -4,7 +4,7 @@
  */
 package gui;
 
-import database.tweetModel;
+import model.tweetModel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
