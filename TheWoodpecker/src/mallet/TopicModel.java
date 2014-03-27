@@ -20,7 +20,9 @@ public class TopicModel {
         
         //Rewrites tweet to text file
         try{
-            database.Writer write = new database.Writer(filePath, true);
+            database.Writer write = new database.Writer(filePath, false);
+            write.writeToFile("");
+            write = new database.Writer(filePath, true);
             for(tweetModel tm : tweets)
                 write.writeToFile(tm.getMessage());
         }catch(IOException ex){
