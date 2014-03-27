@@ -1,25 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package gui;
 
 import static Visual.WordCloud.WordCloud;
-import database.Reader;
 import database.TablesHandler;
 import database.tweetHandler;
 import model.tweetModel;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JTabbedPane;
-import tweets.TweetCleaner;
-import gui.Start;
-import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
 import model.LMDrillModel;
-import ngram.NGram;
 import ngram.NGramDriver;
-import tfidf.Tfidf;
 import tweets.DDTweetCleaner;
 
 /**
