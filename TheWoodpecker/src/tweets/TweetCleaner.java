@@ -7,6 +7,7 @@ import model.tweetModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import model.LMDrillModel;
+import model.TMDrillModel;
 
 /**
  *
@@ -21,6 +22,14 @@ public class TweetCleaner {
 //        writeTweets(tweets);
         
         return lmDrillModel;
+    }
+    
+    public TMDrillModel TMcleanByKeyword(String keyword){
+        
+        TMDrillModel tmDrillModel = tweetHandler.TMgetAllTweetsByKeyword(keyword);
+//        writeTweets(tweets);
+        
+        return tmDrillModel;
     }
     
     public LMDrillModel cleanByDate(String start, String end){

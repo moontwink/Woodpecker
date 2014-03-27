@@ -10,7 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mallet.TopicModel;
 import model.LMDrillModel;
+import model.TMDrillModel;
 import ngram.NGramDriver;
 import tfidf.TfidfDriver;
 
@@ -340,6 +342,76 @@ public class tweetHandler {
         }
         
         return lmDrillModel;
+    }
+    
+    //Retrieves all Tweets via Keywords
+    public static TMDrillModel TMgetAllTweetsByKeyword(String keywords){
+        ArrayList<tweetModel> results = new ArrayList<tweetModel>();
+        tweetModel t;
+        TMDrillModel tmDrillModel = new TMDrillModel();
+        
+        String tablename = "temp-"+keywords;
+        tablename = tablename.replaceAll(",", "|");
+        tablename = tablename.replaceAll(";", "|");
+        tablename = tablename.replaceAll(" ", "");
+           System.out.println(tablename);
+        
+        keywords = keywords.replaceAll(",", "%\' and message like \'%");  
+        keywords = keywords.replaceAll(";", "%\' or message like \'%"); 
+           System.out.println(keywords);
+        
+        try{
+            Connection c = DBFactory.getConnection();
+            PreparedStatement ps = c.prepareStatement(
+                "DROP TABLE IF EXISTS `" + tablename + "`; "
+                );
+                ps.execute();
+                System.out.println(ps);
+            ps = c.prepareStatement(
+                "CREATE TABLE `" + tablename + "` (" +
+                "`username` varchar(20) NOT NULL," +
+                "`date` varchar(30) NOT NULL," +
+                "`message` varchar(180) NOT NULL" +
+                ")ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
+                );
+                ps.execute();
+                System.out.println(ps);
+            ps = c.prepareStatement(
+                "INSERT INTO `" + tablename + "` (username, date, message) " + 
+                "SELECT username, date, message FROM `tweets` " +
+                "WHERE message like '%" + keywords + "%';");
+                ps.execute();   
+                System.out.println(ps);
+            
+            ps = c.prepareStatement("SELECT * from `" + tablename + "`;");
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                t = new tweetModel();
+                t.setUsername(rs.getString("username"));
+                t.setDate(rs.getString("date"));
+                t.setMessage(cleanTweet(rs.getString("message")));
+                results.add(t);
+            }
+            
+            rs.close();
+            ps.close();
+            c.close();
+
+            System.out.println("******************************* ");
+            TopicModel tm = new TopicModel();
+            tm.importData(results);
+            tm.trainTopics();
+            
+            tmDrillModel = new TMDrillModel(0, tablename);
+            
+        }catch(ClassNotFoundException ex){
+            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(SQLException ex){
+            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return tmDrillModel;
     }
     
     //Retrieves all Tweets via Date

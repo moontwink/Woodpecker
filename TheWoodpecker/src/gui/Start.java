@@ -10,6 +10,7 @@ import model.tweetModel;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.LMDrillModel;
+import model.TMDrillModel;
 import tweets.TweetCleaner;
 import ngram.NGramDriver;
 
@@ -835,14 +836,21 @@ public class Start extends javax.swing.JFrame {
     
     //IF TOPIC MODELLER IS SELECTED
     else if(topicRB.isSelected()){
+        TM_DrillDown p = new TM_DrillDown();
+        String method = "TM";
+        
         if((keywordCB.isSelected() && !keywordTF.getText().isEmpty())){
             TweetCleaner tc = new TweetCleaner();
-            tc.cleanByKeyword(keywordTF.getText());
+            TMDrillModel tmDrillModel = tc.TMcleanByKeyword(keywordTF.getText());
             
             TDMethodPanel.setEnabled(true);
             lmRB.setEnabled(true);
             topicRB.setEnabled(true);
             viewtweetsBtn.setEnabled(true);
+            
+            p.setTmDM(tmDrillModel);
+            tabPane.add("LV" + tmDrillModel.getLevel() + " - " + keywordTF.getText() + " - " + method, p);
+            tabPane.setSelectedComponent(p);
         }
     }
     
