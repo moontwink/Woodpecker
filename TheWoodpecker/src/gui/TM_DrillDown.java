@@ -4,22 +4,14 @@
  */
 package gui;
 
-import database.Reader;
 import database.TablesHandler;
 import database.tweetHandler;
 import model.tweetModel;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JTabbedPane;
 import tweets.TweetCleaner;
-import gui.Start;
-import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
-import model.LMDrillModel;
 import model.TMDrillModel;
-import ngram.NGram;
-import ngram.NGramDriver;
-import tfidf.Tfidf;
 import tweets.DDTweetCleaner;
 
 /**
@@ -35,22 +27,22 @@ public class TM_DrillDown extends javax.swing.JPanel {
     /**
      * Creates new form DD_Level1
      */
-    public TM_DrillDown() {
+    public TM_DrillDown(TMDrillModel tmDM) {
+        this.tmDM = tmDM;
+        
         initComponents();
         
-        if((JTabbedPane)this.getParent() != null){
-            JTabbedPane j = (JTabbedPane)this.getParent();
-            title = j.getTitleAt(j.getSelectedIndex()).substring(j.getTitleAt(j.getSelectedIndex()).length()-3, j.getTitleAt(j.getSelectedIndex()).length());
-            System.out.println("~~~~~ "+tmDM.getTablename());
-            if(title.equals("LM")){
-             //   rawDataFld.setText("LANGUAGE MODEL");
-            }
-        }
-//        insertTweetsList(TweetCleaner.getTweets());
-//        insertNgram(TweetCleaner.getTfngrams());
-//        WordCloud wc = new WordCloud(TweetCleaner.getTfngrams());
-//        wordcloud.setBackground(Color.white);
-//        WordCloud.display(wordcloud, WordCloud.getFont());
+        insertTopics();
+        insertTweetsList();
+        
+//        if((JTabbedPane)this.getParent() != null){
+//            JTabbedPane j = (JTabbedPane)this.getParent();
+//            title = j.getTitleAt(j.getSelectedIndex()).substring(j.getTitleAt(j.getSelectedIndex()).length()-3, j.getTitleAt(j.getSelectedIndex()).length());
+//            System.out.println("~~~~~ "+tmDM.getTablename());
+//            if(title.equals("LM")){
+//             //   rawDataFld.setText("LANGUAGE MODEL");
+//            }
+//        }
         
     }
     
@@ -591,10 +583,10 @@ public class TM_DrillDown extends javax.swing.JPanel {
           
             DDTweetCleaner ddTC = new DDTweetCleaner();
             TMDrillModel DDtmDrillModel = ddTC.TMcleanByKeyword(DDkeywords, tmDM);
-            TM_DrillDown p = new TM_DrillDown();
+            
+            TM_DrillDown p = new TM_DrillDown(DDtmDrillModel);
             String method = "TM";
                 
-            p.setTmDM(DDtmDrillModel);
             tabPane.add("LV" + DDtmDrillModel.getLevel() + " - " + DDkeywords + " - " + method, p);
             tabPane.setSelectedComponent(p);
         }
@@ -620,21 +612,7 @@ public class TM_DrillDown extends javax.swing.JPanel {
     }//GEN-LAST:event_closetabBtn3ActionPerformed
 
     private void drilldownBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drilldownBtn1ActionPerformed
-      if( !drillkeyTF.getText().isEmpty()){
-            TweetCleaner tc = new TweetCleaner();
-            tc.cleanByKeyword(drillkeyTF.getText());
-            
-          
-                TM_DrillDown p = new TM_DrillDown();
-              String method = "LM";
-                 JTabbedPane j = (JTabbedPane)this.getParent();
-        
-                  j.add(drillkeyTF.getText()+" - "+ method , p);
-                  j.setSelectedComponent(p);
-               
-            
-               
-        }
+      
     }//GEN-LAST:event_drilldownBtn1ActionPerformed
 
     private void viewtweetsBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewtweetsBtn2ActionPerformed
@@ -643,21 +621,7 @@ public class TM_DrillDown extends javax.swing.JPanel {
     }//GEN-LAST:event_viewtweetsBtn2ActionPerformed
 
     private void drilldownBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drilldownBtn3ActionPerformed
-     if( !drillkeyTF.getText().isEmpty()){
-            TweetCleaner tc = new TweetCleaner();
-            tc.cleanByKeyword(drillkeyTF.getText());
-            
-          
-                TM_DrillDown p = new TM_DrillDown();
-              String method = "LM";
-                 JTabbedPane j = (JTabbedPane)this.getParent();
-        
-                  j.add(drillkeyTF.getText()+" - "+ method , p);
-                  j.setSelectedComponent(p);
-               
-            
-               
-        }
+     
     }//GEN-LAST:event_drilldownBtn3ActionPerformed
 
     private void closetabBtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closetabBtn4ActionPerformed
@@ -665,8 +629,7 @@ public class TM_DrillDown extends javax.swing.JPanel {
     }//GEN-LAST:event_closetabBtn4ActionPerformed
 
     private void RawDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RawDataMouseClicked
-      insertTopics();
-      insertTweetsList();
+      
         /*  JTabbedPane j = (JTabbedPane)this.getParent();
         String title = j.getTitleAt(j.getSelectedIndex()).substring(j.getTitleAt(j.getSelectedIndex()).length()-3, j.getTitleAt(j.getSelectedIndex()).length());
         System.out.println(title);

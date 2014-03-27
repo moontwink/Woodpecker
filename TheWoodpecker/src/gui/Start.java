@@ -816,7 +816,6 @@ public class Start extends javax.swing.JFrame {
     
     //IF TOPIC MODELLER IS SELECTED
     else if(topicRB.isSelected()){
-        TM_DrillDown p = new TM_DrillDown();
         String method = "TM";
         
         if((keywordCB.isSelected() && !keywordTF.getText().isEmpty()) && dateCB.isSelected()){
@@ -836,7 +835,7 @@ public class Start extends javax.swing.JFrame {
                 String endDay = edayMB.getSelectedItem().toString();
                 String endYear = eyearMB.getSelectedItem().toString();
 
-                p.setTmDM(tmDrillModel);
+                TM_DrillDown p = new TM_DrillDown(tmDrillModel);
                 tabPane.add(method + " - LV" + tmDrillModel.getLevel() + " - " + keywordTF.getText() + " - [" 
                     + startMonth + "." + startDay + "." + startYear
                     + "-" + endMonth + "." + endDay + "." + endYear 
@@ -852,7 +851,7 @@ public class Start extends javax.swing.JFrame {
             if(tmDrillModel.getLevel() == -1){
                 JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
             }else{
-                p.setTmDM(tmDrillModel);
+                TM_DrillDown p = new TM_DrillDown(tmDrillModel);
                 tabPane.add("LV" + tmDrillModel.getLevel() + " - " + keywordTF.getText() + " - " + method, p);
                 tabPane.setSelectedComponent(p);
             }
@@ -868,7 +867,7 @@ public class Start extends javax.swing.JFrame {
             if(tmDrillModel.getLevel() == -1){
                 JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
             }else{
-                p.setTmDM(tmDrillModel);
+                TM_DrillDown p = new TM_DrillDown(tmDrillModel);
                 tabPane.add("LV" + tmDrillModel.getLevel() + " - " + 
                     "[" + smonthMB.getSelectedItem().toString()
                     + "-" + emonthMB.getSelectedItem().toString() + " "

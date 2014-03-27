@@ -9,8 +9,6 @@ import cc.mallet.topics.*;
 import java.util.*;
 import java.util.regex.*;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.tweetModel;
 
 public class TopicModel {
