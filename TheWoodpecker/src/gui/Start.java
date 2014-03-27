@@ -839,7 +839,11 @@ public class Start extends javax.swing.JFrame {
         TM_DrillDown p = new TM_DrillDown();
         String method = "TM";
         
-        if((keywordCB.isSelected() && !keywordTF.getText().isEmpty())){
+        if((keywordCB.isSelected() && !keywordTF.getText().isEmpty()) && dateCB.isSelected()){
+        
+        }
+        
+        else if((keywordCB.isSelected() && !keywordTF.getText().isEmpty())){
             TweetCleaner tc = new TweetCleaner();
             TMDrillModel tmDrillModel = tc.TMcleanByKeyword(keywordTF.getText());
             
@@ -851,6 +855,10 @@ public class Start extends javax.swing.JFrame {
             p.setTmDM(tmDrillModel);
             tabPane.add("LV" + tmDrillModel.getLevel() + " - " + keywordTF.getText() + " - " + method, p);
             tabPane.setSelectedComponent(p);
+        }
+        
+        else if(dateCB.isSelected()){
+            
         }
     }
     

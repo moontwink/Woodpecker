@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import model.tweetModel;
 
 public class TopicModel {
+    private ArrayList<TopicOutput> allTopics;
     
     public void importData(ArrayList<tweetModel> tweets){
         String filePath = "src\\malletfile.txt";
@@ -101,17 +102,26 @@ public class TopicModel {
         ArrayList<TreeSet<IDSorter>> topicSortedWords = model.getSortedWords();
 
         // Show top 5 words in topics with proportions for the first document
+        allTopics = new ArrayList<>();
+        
         for (int topic = 0; topic < numTopics; topic++) {
                 Iterator<IDSorter> iterator = topicSortedWords.get(topic).iterator();
-
+                
                 out = new Formatter(new StringBuilder(), Locale.US);
                 out.format("%d\t%.3f\t", topic, topicDistribution[topic]);
                 int rank = 0;
+                
+                ArrayList<String> keywords = new ArrayList<>();
                 while (iterator.hasNext() && rank < 5) {
                         IDSorter idCountPair = iterator.next();
                         out.format("%s ", dataAlphabet.lookupObject(idCountPair.getID()));
                         rank++;
+                        
+                        keywords.add(""+dataAlphabet.lookupObject(idCountPair.getID()));
                 }
+                
+                TopicOutput topicsOut = new TopicOutput(topic, topicDistribution[topic], keywords);
+                getAllTopics().add(topicsOut);
                 System.out.println(out);
         }
 
@@ -225,5 +235,12 @@ public class TopicModel {
 		double[] testProbabilities = inferencer.getSampledDistribution(testing.get(0), 10, 1, 5);
 		System.out.println("0\t" + testProbabilities[0]);
 	}
+
+    /**
+     * @return the allTopics
+     */
+    public ArrayList<TopicOutput> getAllTopics() {
+        return allTopics;
+    }
 
 }
