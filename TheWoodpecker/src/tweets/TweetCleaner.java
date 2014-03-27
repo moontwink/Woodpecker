@@ -25,23 +25,30 @@ public class TweetCleaner {
     }
     
     public TMDrillModel TMcleanByKeyword(String keyword){
-        
         TMDrillModel tmDrillModel = tweetHandler.TMgetAllTweetsByKeyword(keyword);
-//        writeTweets(tweets);
-        
         return tmDrillModel;
     }
     
     public LMDrillModel cleanByDate(String start, String end){
         LMDrillModel lmDrillModel = tweetHandler.getAllTweetsByDate(start, end);
-        writeTweets(tweets);
+//        writeTweets(tweets);
         return lmDrillModel;
+    }
+    
+    public TMDrillModel TMcleanByDate(String start, String end){
+        TMDrillModel tmDrillModel = tweetHandler.TMgetAllTweetsByDate(start, end);
+        return tmDrillModel;
     }
     
     public LMDrillModel cleanByKeywordsAndDate(String keywords, String start, String end){
         LMDrillModel lmDrillModel = tweetHandler.getAllTweetsByKeywordAndDate(keywords, start, end);
 //        writeTweets(tweets);
         return lmDrillModel;
+    }
+    
+    public TMDrillModel TMcleanByKeywordsAndDate(String keywords, String start, String end){
+        TMDrillModel tmDrillModel = tweetHandler.TMgetAllTweetsByKeywordAndDate(keywords, start, end);
+        return tmDrillModel;
     }
     
     private void writeTweets(ArrayList<tweetModel> tweets){

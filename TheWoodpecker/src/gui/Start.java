@@ -53,10 +53,8 @@ public class Start extends javax.swing.JFrame {
         TDMethodPanel.setEnabled(false);
         lmRB.setEnabled(false);
         topicRB.setEnabled(false);
-        Ngrambutton.setEnabled(false);
         
         browseBtn.setEnabled(false);
-        viewtweetsBtn.setEnabled(false);
         
         
     }
@@ -116,8 +114,6 @@ public class Start extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         beginBtn = new javax.swing.JButton();
         TDMethodPanel = new javax.swing.JPanel();
-        viewtweetsBtn = new javax.swing.JButton();
-        Ngrambutton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         resetCriteriaBtn = new javax.swing.JButton();
 
@@ -142,8 +138,8 @@ public class Start extends javax.swing.JFrame {
 
         username.setText("USERNAME");
 
-        tweetField.setColumns(20);
         tweetField.setEditable(false);
+        tweetField.setColumns(20);
         tweetField.setLineWrap(true);
         tweetField.setRows(5);
         tweetField.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -397,7 +393,7 @@ public class Start extends javax.swing.JFrame {
                 smonthMBActionPerformed(evt);
             }
         });
-		
+
         keywordCB.setText("KEYWORD/S");
         keywordCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -533,41 +529,6 @@ public class Start extends javax.swing.JFrame {
 
         TDMethodPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
-        viewtweetsBtn.setText("View Starting Tweet Data");
-        viewtweetsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewtweetsBtnActionPerformed(evt);
-            }
-        });
-
-        Ngrambutton.setText("NGram");
-        Ngrambutton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NgrambuttonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout TDMethodPanelLayout = new javax.swing.GroupLayout(TDMethodPanel);
-        TDMethodPanel.setLayout(TDMethodPanelLayout);
-        TDMethodPanelLayout.setHorizontalGroup(
-            TDMethodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TDMethodPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(viewtweetsBtn)
-                .addGap(18, 18, 18)
-                .addComponent(Ngrambutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        TDMethodPanelLayout.setVerticalGroup(
-            TDMethodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TDMethodPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(TDMethodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(viewtweetsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Ngrambutton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
         jButton1.setText("START OVER");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -582,6 +543,27 @@ public class Start extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout TDMethodPanelLayout = new javax.swing.GroupLayout(TDMethodPanel);
+        TDMethodPanel.setLayout(TDMethodPanelLayout);
+        TDMethodPanelLayout.setHorizontalGroup(
+            TDMethodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TDMethodPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(resetCriteriaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        TDMethodPanelLayout.setVerticalGroup(
+            TDMethodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TDMethodPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(TDMethodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resetCriteriaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -591,11 +573,7 @@ public class Start extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(tweetSourcePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(filterCriteriaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(TDMethodPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(resetCriteriaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(TDMethodPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(tabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 812, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -610,11 +588,7 @@ public class Start extends javax.swing.JFrame {
                         .addComponent(filterCriteriaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(TDMethodPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(resetCriteriaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(tabPane)))
         );
 
@@ -638,19 +612,12 @@ public class Start extends javax.swing.JFrame {
         );
 
         pack();
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        java.awt.Dimension dialogSize = getSize();
-        setLocation((screenSize.width-dialogSize.width)/2,(screenSize.height-dialogSize.height)/2);
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabPaneComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabPaneComponentRemoved
         // TODO add your handling code here:
     }//GEN-LAST:event_tabPaneComponentRemoved
-
-    private void viewtweetsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewtweetsBtnActionPerformed
-        viewTweets vt = new viewTweets();
-        vt.setVisible(true);
-    }//GEN-LAST:event_viewtweetsBtnActionPerformed
 
     private void startBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBtnActionPerformed
         startBtn.setEnabled(false);
@@ -771,43 +738,38 @@ public class Start extends javax.swing.JFrame {
             TweetCleaner tc = new TweetCleaner();
             String start = smonthMB.getSelectedItem().toString()+" "+sdayMB.getSelectedItem().toString()+" "+syearMB.getSelectedItem().toString();
             String end = emonthMB.getSelectedItem().toString()+" "+edayMB.getSelectedItem().toString()+" "+eyearMB.getSelectedItem().toString();
-//            tc.cleanByKeywordsAndDate(keywordTF.getText(), start, end);
             
             LMDrillModel lmDrillModel = tc.cleanByKeywordsAndDate(keywordTF.getText(), start, end);
             
-            TDMethodPanel.setEnabled(true);
-            lmRB.setEnabled(true);
-            topicRB.setEnabled(true);
-            Ngrambutton.setEnabled(true);
-            viewtweetsBtn.setEnabled(true);
-            
-            String startMonth =  smonthMB.getSelectedItem().toString();
-            String startDay = sdayMB.getSelectedItem().toString();
-            String startYear = syearMB.getSelectedItem().toString();
-            String endMonth =  emonthMB.getSelectedItem().toString();
-            String endDay = edayMB.getSelectedItem().toString();
-            String endYear = eyearMB.getSelectedItem().toString();
-            
-            p.setLmDM(lmDrillModel);
-            tabPane.add(method + " - LV" + lmDrillModel.getLevel() + " - " + keywordTF.getText() + " - [" 
-                + startMonth + "." + startDay + "." + startYear
-                + "-" + endMonth + "." + endDay + "." + endYear 
-                + "]", p);
-            tabPane.setSelectedComponent(p);
+            if(lmDrillModel.getLevel() == -1){
+                JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                String startMonth =  smonthMB.getSelectedItem().toString();
+                String startDay = sdayMB.getSelectedItem().toString();
+                String startYear = syearMB.getSelectedItem().toString();
+                String endMonth =  emonthMB.getSelectedItem().toString();
+                String endDay = edayMB.getSelectedItem().toString();
+                String endYear = eyearMB.getSelectedItem().toString();
+
+                p.setLmDM(lmDrillModel);
+                tabPane.add(method + " - LV" + lmDrillModel.getLevel() + " - " + keywordTF.getText() + " - [" 
+                    + startMonth + "." + startDay + "." + startYear
+                    + "-" + endMonth + "." + endDay + "." + endYear 
+                    + "]", p);
+                tabPane.setSelectedComponent(p);
+            }
         }
         else if((keywordCB.isSelected() && !keywordTF.getText().isEmpty())){
             TweetCleaner tc = new TweetCleaner();
             LMDrillModel lmDrillModel = tc.cleanByKeyword(keywordTF.getText());
             
-            TDMethodPanel.setEnabled(true);
-            lmRB.setEnabled(true);
-            topicRB.setEnabled(true);
-            Ngrambutton.setEnabled(true);
-            viewtweetsBtn.setEnabled(true);
-            
-            p.setLmDM(lmDrillModel);
-            tabPane.add("LV" + lmDrillModel.getLevel() + " - " + keywordTF.getText() + " - " + method, p);
-            tabPane.setSelectedComponent(p);
+            if(lmDrillModel.getLevel() == -1){
+                JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                p.setLmDM(lmDrillModel);
+                tabPane.add("LV" + lmDrillModel.getLevel() + " - " + keywordTF.getText() + " - " + method, p);
+                tabPane.setSelectedComponent(p);
+            }
         }
 //        if((keywordCB.isSelected() && !keywordTF.getText().isEmpty()) || dateCB.isSelected()){
         else if(dateCB.isSelected()){
@@ -817,17 +779,15 @@ public class Start extends javax.swing.JFrame {
             
             LMDrillModel lmDrillModel = tc.cleanByDate(start, end);
             
-            TDMethodPanel.setEnabled(true);
-            lmRB.setEnabled(true);
-            topicRB.setEnabled(true);
-            Ngrambutton.setEnabled(true);
-            viewtweetsBtn.setEnabled(true);
-            
-            tabPane.add("LV" + lmDrillModel.getLevel() + " - " + 
-                "[" + smonthMB.getSelectedItem().toString()
-                + "-" + emonthMB.getSelectedItem().toString() + " "
-                + syearMB.getSelectedItem().toString() + "] - " + method, p);
-            tabPane.setSelectedComponent(p);
+            if(lmDrillModel.getLevel() == -1){
+                JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                tabPane.add("LV" + lmDrillModel.getLevel() + " - " + 
+                    "[" + smonthMB.getSelectedItem().toString()
+                    + "-" + emonthMB.getSelectedItem().toString() + " "
+                    + syearMB.getSelectedItem().toString() + "] - " + method, p);
+                tabPane.setSelectedComponent(p);
+            }
             
         }else if((keywordCB.isSelected() && keywordTF.getText().isEmpty())){
             JOptionPane.showMessageDialog(null, "Please input a keyword.", "Filter Criteria Requirement", JOptionPane.INFORMATION_MESSAGE);
@@ -840,28 +800,65 @@ public class Start extends javax.swing.JFrame {
         String method = "TM";
         
         if((keywordCB.isSelected() && !keywordTF.getText().isEmpty()) && dateCB.isSelected()){
-        
+            TweetCleaner tc = new TweetCleaner();
+            String start = smonthMB.getSelectedItem().toString()+" "+sdayMB.getSelectedItem().toString()+" "+syearMB.getSelectedItem().toString();
+            String end = emonthMB.getSelectedItem().toString()+" "+edayMB.getSelectedItem().toString()+" "+eyearMB.getSelectedItem().toString();
+            
+            TMDrillModel tmDrillModel = tc.TMcleanByKeywordsAndDate(keywordTF.getText(), start, end);
+            
+            if(tmDrillModel.getLevel() == -1){
+                JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                String startMonth =  smonthMB.getSelectedItem().toString();
+                String startDay = sdayMB.getSelectedItem().toString();
+                String startYear = syearMB.getSelectedItem().toString();
+                String endMonth =  emonthMB.getSelectedItem().toString();
+                String endDay = edayMB.getSelectedItem().toString();
+                String endYear = eyearMB.getSelectedItem().toString();
+
+                p.setTmDM(tmDrillModel);
+                tabPane.add(method + " - LV" + tmDrillModel.getLevel() + " - " + keywordTF.getText() + " - [" 
+                    + startMonth + "." + startDay + "." + startYear
+                    + "-" + endMonth + "." + endDay + "." + endYear 
+                    + "]", p);
+                tabPane.setSelectedComponent(p);
+            }
         }
         
         else if((keywordCB.isSelected() && !keywordTF.getText().isEmpty())){
             TweetCleaner tc = new TweetCleaner();
             TMDrillModel tmDrillModel = tc.TMcleanByKeyword(keywordTF.getText());
             
-            TDMethodPanel.setEnabled(true);
-            lmRB.setEnabled(true);
-            topicRB.setEnabled(true);
-            viewtweetsBtn.setEnabled(true);
-            
-            p.setTmDM(tmDrillModel);
-            tabPane.add("LV" + tmDrillModel.getLevel() + " - " + keywordTF.getText() + " - " + method, p);
-            tabPane.setSelectedComponent(p);
+            if(tmDrillModel.getLevel() == -1){
+                JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                p.setTmDM(tmDrillModel);
+                tabPane.add("LV" + tmDrillModel.getLevel() + " - " + keywordTF.getText() + " - " + method, p);
+                tabPane.setSelectedComponent(p);
+            }
         }
         
         else if(dateCB.isSelected()){
+            TweetCleaner tc = new TweetCleaner();
+            String start = smonthMB.getSelectedItem().toString()+" "+sdayMB.getSelectedItem().toString()+" "+syearMB.getSelectedItem().toString();
+            String end = emonthMB.getSelectedItem().toString()+" "+edayMB.getSelectedItem().toString()+" "+eyearMB.getSelectedItem().toString();
             
+            TMDrillModel tmDrillModel = tc.TMcleanByDate(start, end);
+            
+            if(tmDrillModel.getLevel() == -1){
+                JOptionPane.showMessageDialog(null, "No Tweets Found.", "Tweet Data", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                tabPane.add("LV" + tmDrillModel.getLevel() + " - " + 
+                    "[" + smonthMB.getSelectedItem().toString()
+                    + "-" + emonthMB.getSelectedItem().toString() + " "
+                    + syearMB.getSelectedItem().toString() + "] - " + method, p);
+                tabPane.setSelectedComponent(p);
+            }
+        }
+        else if((keywordCB.isSelected() && keywordTF.getText().isEmpty())){
+            JOptionPane.showMessageDialog(null, "Please input a keyword.", "Filter Criteria Requirement", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
     
     //IF NO METHOD SELECTED
     else {
@@ -1039,8 +1036,6 @@ public class Start extends javax.swing.JFrame {
         TDMethodPanel.setEnabled(false);
         lmRB.setEnabled(false);
         topicRB.setEnabled(false);
-        Ngrambutton.setEnabled(false);
-        viewtweetsBtn.setEnabled(false);
     }//GEN-LAST:event_resetCriteriaBtnActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1058,13 +1053,6 @@ public class Start extends javax.swing.JFrame {
         int year = Integer.parseInt(eyearMB.getSelectedItem().toString());
         fillEndDayBoxes(month, year);
     }//GEN-LAST:event_emonthMBItemStateChanged
-
-    private void NgrambuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NgrambuttonActionPerformed
-        // TODO add your handling code here:
-
-        viewNGram grammy = new viewNGram();
-        grammy.setVisible(true);
-    }//GEN-LAST:event_NgrambuttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1100,7 +1088,6 @@ public class Start extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Ngrambutton;
     private javax.swing.JPanel TDMethodPanel;
     private javax.swing.JButton beginBtn;
     private javax.swing.JButton browseBtn;
@@ -1149,6 +1136,5 @@ public class Start extends javax.swing.JFrame {
     private javax.swing.JPanel tweetSourcePanel;
     private javax.swing.JLabel username;
     private javax.swing.JTextField usernameField;
-    private javax.swing.JButton viewtweetsBtn;
     // End of variables declaration//GEN-END:variables
 }

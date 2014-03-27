@@ -1,6 +1,9 @@
 
 package model;
 
+import java.util.ArrayList;
+import mallet.TopicOutput;
+
 /**
  *
  * @author Nancy
@@ -8,14 +11,20 @@ package model;
 public class TMDrillModel {
     private int level;
     private String tablename;
+    private ArrayList<TopicOutput> topics;
 
     public TMDrillModel() {
         level = 0;
     }
     
-    public TMDrillModel(int level, String tablename) {
+    public TMDrillModel(int level) {
+        this.level = level;
+    }
+
+    public TMDrillModel(int level, String tablename, ArrayList<TopicOutput> topics) {
         this.level = level;
         this.tablename = tablename;
+        this.topics = topics;
     }
     
     /**
@@ -44,5 +53,19 @@ public class TMDrillModel {
      */
     public void setTablename(String tablename) {
         this.tablename = tablename;
+    }
+
+    /**
+     * @return the topics
+     */
+    public ArrayList<TopicOutput> getTopics() {
+        return topics;
+    }
+
+    /**
+     * @param topics the topics to set
+     */
+    public void setTopics(ArrayList<TopicOutput> topics) {
+        this.topics = topics;
     }
 }

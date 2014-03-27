@@ -16,6 +16,10 @@ public class LMDrillModel {
     public LMDrillModel() {
         level = 0;
     }
+    
+    public LMDrillModel(int level) {
+        this.level = level;
+    }
 
     public LMDrillModel(int level, String tablename, ArrayList<Tfidf> topList) {
         this.level = level;

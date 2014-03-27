@@ -53,19 +53,24 @@ public class TM_DrillDown extends javax.swing.JPanel {
         
     }
     
-//    private void insertNgram(){
-//       model = (DefaultTableModel)ngramtweetTable.getModel();
-//       model.setRowCount(0);
-//       
-//        String t;
-//        double i;
-//            for(int num = 0; num < lmDM.getTopList().size(); num++){
-//               t= lmDM.getTopList().get(num).getTweet();
-//               i= lmDM.getTopList().get(num).getScore();
-//                     model.addRow(new Object[]{t,i});
-//            }
-//                
-//    }
+    private void insertTopics(){
+       model = (DefaultTableModel)topicstable.getModel();
+       model.setRowCount(0);
+       
+       String t;
+       double i;
+       
+        for(int num = 0; num < tmDM.getTopics().size(); num++){
+            t = "";
+            i = tmDM.getTopics().get(num).getRelevance();
+
+            for(String s : tmDM.getTopics().get(num).getKeywords())
+                t = t.concat("| " + s + " |");
+
+            model.addRow(new Object[]{t, i});
+        }
+                
+    }
    private void insertTweetsList(){
         model = (DefaultTableModel)tweetTable.getModel();
         model.setRowCount(0);
@@ -105,7 +110,7 @@ public class TM_DrillDown extends javax.swing.JPanel {
         closetabBtn3 = new javax.swing.JButton();
         drilldownBtn1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ngramtweetTable = new javax.swing.JTable();
+        topicstable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         drillkeyTF2 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -275,7 +280,7 @@ public class TM_DrillDown extends javax.swing.JPanel {
             }
         });
 
-        ngramtweetTable.setModel(new javax.swing.table.DefaultTableModel(
+        topicstable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -283,11 +288,11 @@ public class TM_DrillDown extends javax.swing.JPanel {
                 {null, null}
             },
             new String [] {
-                "Tweet Message", "TF-IDF"
+                "Keywords", "Relevance"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -301,7 +306,7 @@ public class TM_DrillDown extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(ngramtweetTable);
+        jScrollPane1.setViewportView(topicstable);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -583,14 +588,13 @@ public class TM_DrillDown extends javax.swing.JPanel {
             JTabbedPane tabPane = (JTabbedPane)this.getParent();
             String DDkeywords = drillkeyTF.getText();
           
-            NGramDriver.emptyNgram();
             DDTweetCleaner ddTC = new DDTweetCleaner();
-//            LMDrillModel DDlmDrillModel = ddTC.cleanByKeyword(DDkeywords, lmDM);
+            TMDrillModel DDtmDrillModel = ddTC.TMcleanByKeyword(DDkeywords, tmDM);
             TM_DrillDown p = new TM_DrillDown();
-            String method = "LM";
+            String method = "TM";
                 
-//            p.setLmDM(DDlmDrillModel);
-//            tabPane.add("LV" + DDlmDrillModel.getLevel() + " - " + DDkeywords + " - " + method, p);
+            p.setTmDM(DDtmDrillModel);
+            tabPane.add("LV" + DDtmDrillModel.getLevel() + " - " + DDkeywords + " - " + method, p);
             tabPane.setSelectedComponent(p);
         }
     }//GEN-LAST:event_drilldownBtnActionPerformed
@@ -661,7 +665,7 @@ public class TM_DrillDown extends javax.swing.JPanel {
     }//GEN-LAST:event_closetabBtn4ActionPerformed
 
     private void RawDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RawDataMouseClicked
-
+      insertTopics();
       insertTweetsList();
         /*  JTabbedPane j = (JTabbedPane)this.getParent();
         String title = j.getTitleAt(j.getSelectedIndex()).substring(j.getTitleAt(j.getSelectedIndex()).length()-3, j.getTitleAt(j.getSelectedIndex()).length());
@@ -739,11 +743,11 @@ public class TM_DrillDown extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable ngramtweetTable;
     private javax.swing.JButton saveBtn;
     private javax.swing.JButton saveBtn1;
     private javax.swing.JButton saveBtn3;
     private javax.swing.JButton saveBtn4;
+    private javax.swing.JTable topicstable;
     private javax.swing.JTable tweetTable;
     private javax.swing.JButton viewtweetsBtn;
     private javax.swing.JButton viewtweetsBtn1;

@@ -31,6 +31,29 @@ public class TopicModel {
         }
     }
     
+    public static void sortTopicsList(ArrayList<TopicOutput> list){
+        Collections.sort(list, new MyComparator());
+      }
+    
+      public static class MyComparator implements Comparator<TopicOutput> {
+   
+
+        @Override
+        public int compare(TopicOutput o1, TopicOutput o2) {
+          
+        try{
+            if (o1.getRelevance() > o2.getRelevance()) {
+                return -1;
+            } else if (o1.getRelevance() < o2.getRelevance()) {
+                return 1;
+        }
+        }catch(Exception e){
+            System.err.println(e.toString());
+        }
+        return 0;
+        }
+    }
+    
     public void trainTopics(){
         // Begin by importing documents from text to feature sequences
         ArrayList<Pipe> pipeList = new ArrayList<Pipe>();
@@ -121,7 +144,8 @@ public class TopicModel {
                 }
                 
                 TopicOutput topicsOut = new TopicOutput(topic, topicDistribution[topic], keywords);
-                getAllTopics().add(topicsOut);
+                allTopics.add(topicsOut);
+                sortTopicsList(allTopics);
                 System.out.println(out);
         }
 

@@ -178,6 +178,7 @@ public class tweetHandler {
         NGramDriver.removeOutliers();
     }
     
+    //Language Modeller - Retrieves all Tweets via Keywords
     public static LMDrillModel getAllTweetsByKeywordAndDate(String keywords, String startDate, String endDate){
         ArrayList<tweetModel> results = new ArrayList<tweetModel>();
         LMDrillModel lmDrillModel = new LMDrillModel();
@@ -260,10 +261,13 @@ public class tweetHandler {
             c.close();
             
             System.out.println("******************************* ");
-            sortNgramAndRemoveOutliers();
-            TfidfDriver.idfchecker(results);
-            
-            lmDrillModel = new LMDrillModel(0, tablename, TfidfDriver.getToplist());
+            if(results.isEmpty()){
+                lmDrillModel = new LMDrillModel(-1);
+            }else{
+                sortNgramAndRemoveOutliers();
+                TfidfDriver.idfchecker(results);
+                lmDrillModel = new LMDrillModel(0, tablename, TfidfDriver.getToplist());
+            }
             
         }catch(ClassNotFoundException ex){
             Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -272,6 +276,107 @@ public class tweetHandler {
         }
         
         return lmDrillModel;
+    }
+    
+    //Topic Modeller - Retrieves all Tweets via Keywords
+    public static TMDrillModel TMgetAllTweetsByKeywordAndDate(String keywords, String startDate, String endDate){
+        ArrayList<tweetModel> results = new ArrayList<tweetModel>();
+        TMDrillModel tmDrillModel = new TMDrillModel();
+        
+        String[] start = startDate.split(" ");
+        String[] end = endDate.split(" ");
+        tweetModel t;
+        
+        String tablename = "temp-"+keywords+"-"+start[0]+"."+start[1]+"."+start[2]+"-"+end[0]+"."+end[1]+"."+end[2];;
+        tablename = tablename.replaceAll(",", "|");
+        tablename = tablename.replaceAll(";", "|");
+        tablename = tablename.replaceAll(" ", "");
+           System.out.println(tablename);
+        
+           
+        keywords = keywords.replaceAll(",", "%\' and message like \'%");
+        keywords = keywords.replaceAll(";", "%\' or message like \'%"); 
+          System.out.println(keywords);
+ 
+        String whereCondition = "";
+        
+        int year = Integer.parseInt(start[2]);
+//        for(int year = Integer.parseInt(start[2]); year <= Integer.parseInt(end[2]); year++){
+            for(int month = monthNumber(start[0]); month <= monthNumber(end[0]); month++){
+                int currentday = 1;
+                if(month == monthNumber(start[0]))
+                    currentday = Integer.parseInt(start[1]);
+                
+                for(int day = currentday; day <= numDaysinMonth(month); day++){
+                    if(month == monthNumber(end[0]) && day > Integer.parseInt(end[1]))
+                        break;
+                    if(whereCondition.equals(""))
+                        whereCondition = "'" + start[1] + " " + start[0] + " " + start[2] + "%'";
+                    else
+                        whereCondition = whereCondition.concat(" or date like '" + day + " " + monthName(month) + " " + year +"%'");
+//                    System.out.println(whereCondition);
+                }
+            }
+//        }
+        System.out.println("[3] " + whereCondition);
+        
+          try{
+            Connection c = DBFactory.getConnection();
+            PreparedStatement ps = c.prepareStatement(
+                "DROP TABLE IF EXISTS `" + tablename + "`; "
+                );
+                ps.execute();
+                System.out.println(ps);
+            ps = c.prepareStatement(
+                "CREATE TABLE `" + tablename + "` (" +
+                "`username` varchar(20) NOT NULL," +
+                "`date` varchar(30) NOT NULL," +
+                "`message` varchar(180) NOT NULL" +
+                ")ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
+                );
+                ps.execute();
+                System.out.println(ps);
+            ps = c.prepareStatement(
+                "INSERT INTO `" + tablename + "` (username, date, message) " + 
+                "SELECT username, date, message FROM `tweets` " +
+                "WHERE (message like '%" + keywords + "%')" +
+                "and (date like "+whereCondition+" )"); 
+                ps.execute();   
+                System.out.println(ps);
+            
+            ps = c.prepareStatement("SELECT * from `" + tablename + "`;");
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                t = new tweetModel();
+                t.setUsername(rs.getString("username"));
+                t.setDate(rs.getString("date"));
+                t.setMessage(cleanTweet(rs.getString("message")));
+                results.add(t);
+            }
+            
+            rs.close();
+            ps.close();
+            c.close();
+            
+            System.out.println("******************************* ");
+            TopicModel tm = new TopicModel();
+            
+            if(results.isEmpty()){
+                tmDrillModel = new TMDrillModel(-1);
+            }else{
+                tm.importData(results);
+                tm.trainTopics();
+                tmDrillModel = new TMDrillModel(0, tablename, tm.getAllTopics());
+            }
+            
+        }catch(ClassNotFoundException ex){
+            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(SQLException ex){
+            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return tmDrillModel;
     }
     
     //Retrieves all Tweets via Keywords
@@ -330,10 +435,13 @@ public class tweetHandler {
             c.close();
 
             System.out.println("******************************* ");
-            sortNgramAndRemoveOutliers();
-            TfidfDriver.idfchecker(results);
-            
-            lmDrillModel = new LMDrillModel(0, tablename, TfidfDriver.getToplist());
+            if(results.isEmpty()){
+                lmDrillModel = new LMDrillModel(-1);
+            }else{
+                sortNgramAndRemoveOutliers();
+                TfidfDriver.idfchecker(results);
+                lmDrillModel = new LMDrillModel(0, tablename, TfidfDriver.getToplist());
+            }
             
         }catch(ClassNotFoundException ex){
             Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -344,7 +452,7 @@ public class tweetHandler {
         return lmDrillModel;
     }
     
-    //Retrieves all Tweets via Keywords
+    //Topic Modeller - Retrieves all Tweets via Keywords
     public static TMDrillModel TMgetAllTweetsByKeyword(String keywords){
         ArrayList<tweetModel> results = new ArrayList<tweetModel>();
         tweetModel t;
@@ -400,10 +508,14 @@ public class tweetHandler {
 
             System.out.println("******************************* ");
             TopicModel tm = new TopicModel();
-            tm.importData(results);
-            tm.trainTopics();
             
-            tmDrillModel = new TMDrillModel(0, tablename);
+            if(results.isEmpty()){
+                tmDrillModel = new TMDrillModel(-1);
+            }else{
+                tm.importData(results);
+                tm.trainTopics();
+                tmDrillModel = new TMDrillModel(0, tablename, tm.getAllTopics());
+            }
             
         }catch(ClassNotFoundException ex){
             Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -491,10 +603,13 @@ public class tweetHandler {
             c.close();
             
             System.out.println("******************************* ");
-            sortNgramAndRemoveOutliers();
-            TfidfDriver.idfchecker(results);
-            
-            lmDrillModel = new LMDrillModel(0, tablename, TfidfDriver.getToplist());
+            if(results.isEmpty()){
+                lmDrillModel = new LMDrillModel(-1);
+            }else{
+                sortNgramAndRemoveOutliers();
+                TfidfDriver.idfchecker(results);
+                lmDrillModel = new LMDrillModel(0, tablename, TfidfDriver.getToplist());
+            }
             
         }catch(ClassNotFoundException ex){
             Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -503,6 +618,101 @@ public class tweetHandler {
         }
          
         return lmDrillModel;
+    }
+    
+    //Topic Modeller - Retrieves all Tweets via Date
+    public static TMDrillModel TMgetAllTweetsByDate(String startDate, String endDate){
+        ArrayList<tweetModel> results = new ArrayList<tweetModel>();
+        TMDrillModel tmDrillModel = new TMDrillModel();
+        
+        String[] start = startDate.split(" ");  //[0] month, [1] day, [2] year
+        String[] end = endDate.split(" ");
+        tweetModel t;
+        
+        String tablename = "temp-" + start[0]+"."+start[1]+"."+start[2]+"-"+end[0]+"."+end[1]+"."+end[2];
+        System.out.println(tablename);
+        
+        String whereCondition = "";
+        
+        int year = Integer.parseInt(start[2]);
+//        for(int year = Integer.parseInt(start[2]); year <= Integer.parseInt(end[2]); year++){
+            for(int month = monthNumber(start[0]); month <= monthNumber(end[0]); month++){
+                int currentday = 1;
+                if(month == monthNumber(start[0]))
+                    currentday = Integer.parseInt(start[1]);
+                
+//                System.out.println("[2.5] "+whereCondition);
+                for(int day = currentday; day <= numDaysinMonth(month); day++){
+                    if(month == monthNumber(end[0]) && day > Integer.parseInt(end[1]))
+                        break;
+                    if(whereCondition.equals(""))
+                        whereCondition = "'" + start[1] + " " + start[0] + " " + start[2] + "%'";
+                    else
+                        whereCondition = whereCondition.concat(" or date like '" + day + " " + monthName(month) + " " + year +"%'");
+//                    System.out.println("[2] "+whereCondition);
+                }
+            }
+//        }
+        System.out.println("[3] " + whereCondition);
+        
+        try{
+            Connection c = DBFactory.getConnection();
+            PreparedStatement ps = c.prepareStatement(
+                "DROP TABLE IF EXISTS `" + tablename + "`; "
+                );
+                ps.execute();
+                System.out.println(ps);
+            ps = c.prepareStatement(
+                "CREATE TABLE `" + tablename + "` (" +
+                "`username` varchar(20) NOT NULL," +
+                "`date` varchar(30) NOT NULL," +
+                "`message` varchar(180) NOT NULL" +
+                ")ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
+                );
+                ps.execute();
+                System.out.println(ps);
+            ps = c.prepareStatement(
+                "INSERT INTO `" + tablename + "` (username, date, message) " + 
+                "SELECT username, date, message FROM `tweets` " +
+                "WHERE date like " + whereCondition);
+                ps.execute();   
+                System.out.println(ps);
+                //SELECT * FROM `Seasons` WHERE (date_field BETWEEN '2010-01-30 14:15:55' AND '2010-09-29 10:15:55')
+            
+            ps = c.prepareStatement("SELECT * from `" + tablename + "`;");
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                t = new tweetModel();
+                t.setUsername(rs.getString("username"));
+                t.setDate(rs.getString("date"));
+                t.setMessage(cleanTweet(rs.getString("message")));
+                results.add(t);
+            }
+            
+            rs.close();
+            ps.close();
+            c.close();
+            
+            System.out.println("******************************* ");
+            
+            TopicModel tm = new TopicModel();
+            
+            if(results.isEmpty()){
+                tmDrillModel = new TMDrillModel(-1);
+            }else{
+                tm.importData(results);
+                tm.trainTopics();
+                tmDrillModel = new TMDrillModel(0, tablename, tm.getAllTopics());
+            }
+            
+        }catch(ClassNotFoundException ex){
+            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(SQLException ex){
+            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        return tmDrillModel;
     }
     
     //Converts Month to its Number Equivalent
@@ -652,7 +862,7 @@ public class tweetHandler {
         tweetModel t;
         LMDrillModel lmDrillModel = new LMDrillModel();
         
-        String tablename = "temp-"+keywords;
+        String tablename = "temp-dd-"+keywords;
         tablename = tablename.replaceAll(",", "|");
         tablename = tablename.replaceAll(";", "|");
         tablename = tablename.replaceAll(" ", "");
@@ -714,5 +924,75 @@ public class tweetHandler {
         }
         
         return lmDrillModel;
+    }
+    
+    //Drilldown Via Topic Modeller
+    public static TMDrillModel drillDownByTM(String keywords, TMDrillModel currenttmDM){
+        ArrayList<tweetModel> results = new ArrayList<tweetModel>();
+        tweetModel t;
+        TMDrillModel tmDrillModel = new TMDrillModel();
+        
+        String tablename = "temp-dd-"+keywords;
+        tablename = tablename.replaceAll(",", "|");
+        tablename = tablename.replaceAll(";", "|");
+        tablename = tablename.replaceAll(" ", "");
+           System.out.println(tablename);
+        
+        keywords = keywords.replaceAll(",", "%\' and message like \'%");  
+        keywords = keywords.replaceAll(";", "%\' or message like \'%"); 
+           System.out.println(keywords);
+        
+        try{
+            Connection c = DBFactory.getConnection();
+            PreparedStatement ps = c.prepareStatement(
+                "DROP TABLE IF EXISTS `" + tablename + "`; "
+                );
+                ps.execute();
+                System.out.println(ps);
+            ps = c.prepareStatement(
+                "CREATE TABLE `" + tablename + "` (" +
+                "`username` varchar(20) NOT NULL," +
+                "`date` varchar(30) NOT NULL," +
+                "`message` varchar(180) NOT NULL" +
+                ")ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
+                );
+                ps.execute();
+                System.out.println(ps);
+            ps = c.prepareStatement(
+                "INSERT INTO `" + tablename + "` (username, date, message) " + 
+                "SELECT username, date, message FROM `" + currenttmDM.getTablename() + "` " +
+                "WHERE message like '%" + keywords + "%';");
+                ps.execute();   
+                System.out.println(ps);
+            
+            ps = c.prepareStatement("SELECT * from `" + tablename + "`;");
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                t = new tweetModel();
+                t.setUsername(rs.getString("username"));
+                t.setDate(rs.getString("date"));
+                t.setMessage(cleanTweet(rs.getString("message")));
+                results.add(t);
+            }
+            
+            rs.close();
+            ps.close();
+            c.close();
+
+            System.out.println("******************************* ");
+            TopicModel tm = new TopicModel();
+            tm.importData(results);
+            tm.trainTopics();
+            
+            tmDrillModel = new TMDrillModel(currenttmDM.getLevel()+1, tablename, tm.getAllTopics());
+            
+        }catch(ClassNotFoundException ex){
+            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(SQLException ex){
+            Logger.getLogger(tweetHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return tmDrillModel;
     }
 }

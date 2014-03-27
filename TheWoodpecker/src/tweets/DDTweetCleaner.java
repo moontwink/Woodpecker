@@ -3,6 +3,7 @@ package tweets;
 
 import database.tweetHandler;
 import model.LMDrillModel;
+import model.TMDrillModel;
 
 /**
  *
@@ -11,8 +12,11 @@ import model.LMDrillModel;
 public class DDTweetCleaner {
     public LMDrillModel cleanByKeyword(String keyword, LMDrillModel currentlmDM){
         LMDrillModel DDlmDrillModel = tweetHandler.drillDownByLM(keyword, currentlmDM);
-//        writeTweets(tweets);
-        
         return DDlmDrillModel;
+    }
+    
+    public TMDrillModel TMcleanByKeyword(String keyword, TMDrillModel currenttmDM){
+        TMDrillModel DDtmDrillModel = tweetHandler.drillDownByTM(keyword, currenttmDM);
+        return DDtmDrillModel;
     }
 }
